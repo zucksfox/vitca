@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nurvita Octaviani — Portofolio Akuntansi & Keuangan</title>
+  <meta name="description" content="Portofolio Profesional Akuntansi Nurvita Octaviani. Teruji dalam rekonsiliasi kas harian tanpa selisih (zero variance), bimbingan statistik laboratorium, dan validasi inovasi sektor publik." />
+  
+  <!-- Preconnect & Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+  
+  <!-- Preload Critical Mascot Assets -->
+  <link rel="preload" href="mascot/wave_kedip.webp" as="image" type="image/webp">
+  <link rel="preload" href="mascot/waving.webp" as="image" type="image/webp">
+  <link rel="preload" href="mascot/idle.webp" as="image" type="image/webp">
+  
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Custom LEGO Stud Cursor (Desktop Only) -->
+  <div class="custom-cursor" id="customCursor" aria-hidden="true">
+    <div class="cursor-stud"></div>
+  </div>
+
+  <!-- Header & Minimal Navigation with Language Switcher -->
+  <header class="site-header" id="siteHeader">
+    <div class="header-container">
+      <a href="#hero" class="brand-mark" aria-label="Nurvita Octaviani Homepage">
+        <span class="brand-stud" aria-hidden="true"></span>
+        <span class="brand-title">NURVITA OCTAVIANI</span>
+      </a>
+
+      <nav class="site-nav" id="siteNav" aria-label="Main portfolio navigation">
+        <ul class="nav-list">
+          <li><a href="#about" class="nav-link" data-target="about" data-i18n="nav_about">Tentang</a></li>
+          <li><a href="#education" class="nav-link" data-target="education" data-i18n="nav_education">Pendidikan</a></li>
+          <li><a href="#experience" class="nav-link" data-target="experience" data-i18n="nav_experience">Pengalaman</a></li>
+          <li><a href="#internship" class="nav-link" data-target="internship" data-i18n="nav_internship">Magang</a></li>
+          <li><a href="#skills" class="nav-link" data-target="skills" data-i18n="nav_skills">Keahlian</a></li>
+          <li><a href="#contact" class="nav-link nav-link--cta" data-target="contact" data-i18n="nav_contact">Kontak</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-right-tools">
+                <!-- Download CV ATS PDF Button -->
+        <a href="CV_Nurvita_Octaviani_ATS.pdf" download="CV_Nurvita_Octaviani_ATS.pdf" class="btn-cv-header" title="Unduh CV Format PDF (ATS)" aria-label="Unduh CV ATS PDF">
+          <span class="cv-badge">PDF</span>
+          <span class="cv-label" data-i18n="cv_download_btn">Unduh CV</span>
+          <span class="cv-icon" aria-hidden="true">↓</span>
+        </a>
+
+        <!-- Bilingual Switcher: EN | ID -->
+        <div class="lang-switch-wrap" role="group" aria-label="Language selection">
+          <button class="lang-btn" id="langBtnEn" data-lang="en" aria-label="Switch to English version">EN</button>
+          <span class="lang-divider" aria-hidden="true">/</span>
+          <button class="lang-btn is-active" id="langBtnId" data-lang="id" aria-label="Ganti ke Bahasa Indonesia">ID</button>
+        </div>
+
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu" aria-expanded="false">
+          <span class="toggle-bar"></span>
+          <span class="toggle-bar"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="nav-backdrop" id="navBackdrop" aria-hidden="true"></div>
+
+  <!-- Interactive Section Indicator (Fixed Right) -->
+  <aside class="section-indicator" id="sectionIndicator" aria-label="Section chapter indicator">
+    <div class="indicator-num-wrap">
+      <span class="indicator-current" id="indicatorCurrent">01</span>
+      <span class="indicator-sep">/</span>
+      <span class="indicator-total">07</span>
+    </div>
+    <div class="indicator-track-container" id="indicatorTrackContainer" title="Click to navigate chapters">
+      <div class="indicator-track">
+        <div class="indicator-bar" id="indicatorBar"></div>
+      </div>
+      <div class="indicator-ticks" id="indicatorTicks">
+        <button class="tick-btn is-active" data-index="0" aria-label="01 Hero"></button>
+        <button class="tick-btn" data-index="1" aria-label="02 About"></button>
+        <button class="tick-btn" data-index="2" aria-label="03 Education"></button>
+        <button class="tick-btn" data-index="3" aria-label="04 Experience"></button>
+        <button class="tick-btn" data-index="4" aria-label="05 Internship"></button>
+        <button class="tick-btn" data-index="5" aria-label="06 Skills"></button>
+        <button class="tick-btn" data-index="6" aria-label="07 Contact"></button>
+      </div>
+    </div>
+    <span class="indicator-label" id="indicatorLabel" data-i18n="sec_label_01">HERO</span>
+  </aside>
+
+  <!-- Global Mascot Controller Component (Fixed Bottom-Left) -->
+  <div class="mascot-controller is-hero-mode" id="mascotController" aria-label="Nurvita LEGO companion mascot">
+    <div class="mascot-bubble" id="mascotBubble" role="status" aria-live="polite">
+      <span class="bubble-text" id="bubbleText">Hai, Selamat Datang!</span>
+    </div>
+    <div class="mascot-stage" id="mascotStage" role="button" tabindex="0" aria-label="Click to interact with mascot">
+      <img
+        id="mascotImage"
+        class="mascot-img"
+        src="mascot/waving.webp"
+        alt="Nurvita LEGO Mascot"
+        width="700"
+        height="840"
+      />
+      <img
+        id="mascotBlinkOverlay"
+        class="mascot-img mascot-blink-overlay"
+        src="mascot/wave_kedip.webp"
+        alt=""
+        width="700"
+        height="840"
+        aria-hidden="true"
+      />
+      <div class="mascot-pedestal" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <!-- Main Scrollable Storytelling Container -->
+  <main class="portfolio-container" id="portfolioContainer">
+
+    <!-- ==================== 01 — HERO ==================== -->
+    <section id="hero" class="portfolio-section section-hero" data-section="hero" data-mascot="waving" data-num="01" data-label-key="sec_label_01">
+      <div class="section-inner">
+        <div class="hero-layout">
+          <header class="hero-masthead">
+            <div class="editorial-tag">
+              <span class="brick-stud" aria-hidden="true"></span>
+              <span class="tag-text" data-i18n="hero_tag">01 / PORTOFOLIO — 2026</span>
+            </div>
+            <div class="role-discipline" data-i18n="hero_discipline">AKUNTANSI & KEUANGAN</div>
+          </header>
+  <div class="nav-backdrop" id="navBackdrop" aria-hidden="true"></div>
+
+          <div class="hero-centerpiece">
+            <h1 class="hero-title">
+              Nurvita<br>
+              <span class="hero-title-sub">Octaviani</span>
+            </h1>
+
+            <div class="hero-concept-block">
+              <p class="hero-lead-text" data-i18n="hero_lead">Lulusan S1 Akuntansi Universitas Muhammadiyah Magelang yang berfokus pada administrasi keuangan, pengelolaan kas, dan pelaporan akuntansi yang akuntabel.</p>
+            </div>
+
+            <div class="hero-actions-row">
+              <a href="#about" class="btn btn--primary">
+                <span data-i18n="hero_btn_explore">Lihat Portofolio</span>
+                <span class="btn-symbol" aria-hidden="true">↓</span>
+              </a>
+              <a href="#contact" class="btn btn--secondary">
+                <span data-i18n="hero_btn_contact">Undang Diskusi / Kontak</span>
+                <span class="btn-symbol" aria-hidden="true">→</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Subtle Editorial Scroll Cue -->
+        <a href="#about" class="hero-scroll-cue" aria-label="Scroll to explore About section">
+          <span class="cue-pill" aria-hidden="true">
+            <span class="cue-dot"></span>
+          </span>
+          <span class="cue-text" data-i18n="hero_scroll_cue">GULIR UNTUK MENJELAJAHI</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ==================== 02 — ABOUT ME ==================== -->
+    <section id="about" class="portfolio-section section-about" data-section="about" data-mascot="idle" data-num="02" data-label-key="sec_label_02">
+      <div class="section-inner">
+        <div class="editorial-header">
+          <div class="editorial-tag">
+            <span class="brick-stud" aria-hidden="true"></span>
+            <span class="tag-text" data-i18n="about_tag">02 / TENTANG SAYA</span>
+          </div>
+          <h2 class="editorial-heading" data-i18n-html="about_heading">Ketelitian dalam pencatatan,<br>transparansi dalam pelaporan.</h2>
+        </div>
+
+        <div class="about-editorial-grid">
+          <div class="about-main-narrative">
+            <p class="narrative-standout" data-i18n="about_standout">Tata kelola keuangan yang sehat dibangun melalui disiplin dokumentasi, verifikasi transaksi yang cermat, dan kepatuhan penuh terhadap standar akuntansi.</p>
+            <p class="narrative-body" data-i18n="about_p1">Sebagai lulusan S1 Akuntansi Universitas Muhammadiyah Magelang (2022 - 2026), saya telah mengasah ketelitian di lapangan: mengontrol uang fisik di laci kasir hingga penutupan shift tanpa minus, mendampingi mahasiswa memecahkan olah data statistik di laboratorium, serta memvalidasi puluhan dokumen regulasi di BAPPERIDA Kota Magelang.</p>
+            <p class="narrative-body" data-i18n="about_p2">Standar kerja profesional saya berfokus pada ketelitian menyeluruh: menyusun bukti transaksi, jurnal, hingga neraca saldo secara presisi agar manajemen dan pimpinan dapat mengambil keputusan strategis tanpa keraguan.< standar kerja saya: menyusun bukti transaksi, jurnal, hingga neraca saldo secara presisi agar manajemen dan pimpinan dapat mengambil keputusan strategis tanpa keraguan.</p>
+          </div>
+
+          <div class="about-pillars-column">
+            <div class="pillar-row">
+              <div class="pillar-index">01</div>
+              <div class="pillar-body">
+                <h3 class="pillar-title" data-i18n="about_pillar1_title">Presisi Tanpa Kompromi (Zero Variance)</h3>
+                <p class="pillar-desc" data-i18n="about_pillar1_desc">Disiplin ketat mencocokkan uang fisik, bukti transaksi sumber, dan mutasi saldo buku besar. Tidak ada toleransi terhadap selisih yang tak terjelaskan.</p>
+              </div>
+            </div>
+
+            <div class="pillar-row">
+              <div class="pillar-index">02</div>
+              <div class="pillar-body">
+                <h3 class="pillar-title" data-i18n="about_pillar2_title">Administrasi Siap Audit</h3>
+                <p class="pillar-desc" data-i18n="about_pillar2_desc">Alur dokumentasi tertata rapi, jejak audit (audit trails) transparan, dan pemodelan spreadsheet terstruktur yang siap diuji kapan pun.</p>
+              </div>
+            </div>
+
+            <div class="pillar-row">
+              <div class="pillar-index">03</div>
+              <div class="pillar-body">
+                <h3 class="pillar-title" data-i18n="about_pillar3_title">Integritas & Akuntabilitas Teruji</h3>
+                <p class="pillar-desc" data-i18n="about_pillar3_desc">Tanggung jawab penuh dalam mengelola dana operasional dan data institusi publik, menjaga kerahasiaan, serta berkomunikasi lugas dengan tim.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 03 — EDUCATION ==================== -->
+    <section id="education" class="portfolio-section section-education" data-section="education" data-mascot="graduation" data-num="03" data-label-key="sec_label_03">
+      <div class="section-inner">
+        <div class="editorial-header">
+          <div class="editorial-tag">
+            <span class="brick-stud" aria-hidden="true"></span>
+            <span class="tag-text" data-i18n="edu_tag">03 / PENDIDIKAN</span>
+          </div>
+          <h2 class="editorial-heading" data-i18n="edu_heading">Fondasi Akademik & Standar Finansial</h2>
+        </div>
+
+        <div class="education-editorial-grid">
+          <!-- Main degree block -->
+          <div class="edu-degree-card">
+            <div class="edu-faculty" data-i18n="edu_faculty">FAKULTAS EKONOMIKA DAN BISNIS</div>
+            <h3 class="edu-university-title">
+              Universitas<br>
+              Muhammadiyah<br>
+              Magelang
+            </h3>
+
+            <div class="edu-badge-row">
+              <span class="edu-program-pill" data-i18n="edu_program">S1 AKUNTANSI</span>
+              <span class="edu-timeline-text" data-i18n="edu_period">2022 - 2026</span>
+            </div>
+
+            <p class="edu-narrative-note" data-i18n="edu_narrative">Kurikulum dirancang intensif mencakup Standar Akuntansi Keuangan (SAK), sistem pengendalian internal, perpajakan badan & pribadi, serta analisis data bisnis kuantitatif.</p>
+          </div>
+
+          <!-- Large Editorial GPA Display -->
+          <div class="edu-gpa-editorial-card">
+            <div class="gpa-supernumber-wrap">
+              <span class="gpa-supernumber">3.62</span>
+              <div class="gpa-metadata">
+                <span class="gpa-caption" data-i18n="edu_gpa_caption">IPK KUMULATIF</span>
+                <span class="gpa-scale-text" data-i18n="edu_gpa_scale">SKALA 4,00 / SANGAT MEMUASKAN</span>
+              </div>
+            </div>
+            <p class="gpa-context-note" data-i18n="edu_gpa_note">Bukti konsistensi dedikasi belajar, kemampuan kuantitatif tinggi, dan penguasaan praktikum akuntansi terapan.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 04 — WORK EXPERIENCE ==================== -->
+    <section id="experience" class="portfolio-section section-experience" data-section="experience" data-mascot="calculator" data-num="04" data-label-key="sec_label_04">
+      <div class="section-inner">
+        <div class="editorial-header">
+          <div class="editorial-tag">
+            <span class="brick-stud" aria-hidden="true"></span>
+            <span class="tag-text" data-i18n="exp_tag">04 / PENGALAMAN KERJA</span>
+          </div>
+          <h2 class="editorial-heading" data-i18n="exp_heading">Pengalaman Operasional Terapan</h2>
+          <p class="editorial-subhead" data-i18n="exp_subhead">Pengalaman operasional nyata dalam bimbingan data kuantitatif, tata kelola kas ritel, dan rekonsiliasi harian.</p>
+        </div>
+
+        <div class="experience-structured-rows">
+          <!-- Timeline Row 1 -->
+          <article class="exp-row">
+            <div class="exp-col-timeline">
+              <span class="exp-period">2024 — 2025</span>
+              <span class="exp-type-tag" data-i18n="exp1_type">PENUGASAN AKADEMIK</span>
+            </div>
+            <div class="exp-col-main">
+              <header class="exp-header">
+                <h3 class="exp-role" data-i18n="exp1_role">Asisten Laboratorium — Statistik Bisnis & Komputasi Digital</h3>
+                <span class="exp-org">Universitas Muhammadiyah Magelang</span>
+              </header>
+  <div class="nav-backdrop" id="navBackdrop" aria-hidden="true"></div>
+              <div class="exp-content">
+                <p class="exp-summary" data-i18n="exp1_summary">Memfasilitasi sesi praktikum statistik komputasional bagi mahasiswa, menjaga ketertiban administrasi presensi, dataset olah data, dan rekapan nilai berkala.</p>
+                <ul class="exp-responsibilities">
+                  <li data-i18n="exp1_b1">Membimbing mahasiswa dalam alur olah data statistik, validasi dataset bisnis, dan interpretasi pengujian hipotesis parametrik.</li>
+                  <li data-i18n="exp1_b2">Menjaga integritas administratif 100% pada catatan kehadiran praktikan, penjadwalan tugas laboratorium, dan rekapitulasi nilai dosen.</li>
+                  <li data-i18n="exp1_b3">Membantu dosen pengampu menyusun modul studi kasus numerik terapan dan simulasi analisis data ekonomi.</li>
+                </ul>
+                <div class="exp-tags-row">
+                  <span class="tag-pill" data-i18n="tag_biz_stat">Statistik Bisnis</span>
+                  <span class="tag-pill" data-i18n="tag_data_ver">Verifikasi Data</span>
+                  <span class="tag-pill" data-i18n="tag_acad_adm">Administrasi Akademik</span>
+                  <span class="tag-pill" data-i18n="tag_inst_guide">Bimbingan Praktikum</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Timeline Row 2 -->
+          <article class="exp-row">
+            <div class="exp-col-timeline">
+              <span class="exp-period">2023 — 2024</span>
+              <span class="exp-type-tag" data-i18n="exp2_type">PRAKTIK OPERASIONAL</span>
+            </div>
+            <div class="exp-col-main">
+              <header class="exp-header">
+                <h3 class="exp-role" data-i18n="exp2_role">Kasir & Administrasi Transaksi Keuangan</h3>
+                <span class="exp-org" data-i18n="exp2_org">Operasional Transaksi Ritel</span>
+              </header>
+  <div class="nav-backdrop" id="navBackdrop" aria-hidden="true"></div>
+              <div class="exp-content">
+                <p class="exp-summary" data-i18n="exp2_summary">Mengelola perputaran kas dan pembayaran digital (QRIS/EDC) bertrafik tinggi, mempertahankan rekor zero-variance saat closing shift harian.</p>
+                <ul class="exp-responsibilities">
+                  <li data-i18n="exp2_b1">Memproses transaksi pembayaran tunai, QRIS, dan debit bervolume tinggi dengan ketelitian hitung tanpa galat.</li>
+                  <li data-i18n="exp2_b2">Melakukan opname kas fisik laci kasir saat buka dan tutup shift; saldo fisik klop 100% dengan rekapitulasi POS harian.</li>
+                  <li data-i18n="exp2_b3">Mencatat pengeluaran kas kecil (petty cash), memverifikasi keabsahan nota/faktur operasional, dan menyusun laporan settlement untuk evaluasi manajemen.</li>
+                </ul>
+                <div class="exp-tags-row">
+                  <span class="tag-pill" data-i18n="tag_cash_gov">Pengelolaan Laci Kas</span>
+                  <span class="tag-pill" data-i18n="tag_pos_rec">Rekonsiliasi POS</span>
+                  <span class="tag-pill" data-i18n="tag_petty_cash">Manajemen Kas Kecil</span>
+                  <span class="tag-pill" data-i18n="tag_audit_trail">Jejak Audit</span>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 05 — INTERNSHIP ==================== -->
+    <section id="internship" class="portfolio-section section-internship" data-section="internship" data-mascot="thinking" data-num="05" data-label-key="sec_label_05">
+      <div class="section-inner">
+        <div class="editorial-header">
+          <div class="editorial-tag">
+            <span class="brick-stud" aria-hidden="true"></span>
+            <span class="tag-text" data-i18n="intern_tag">05 / PENGALAMAN MAGANG</span>
+          </div>
+          <h2 class="editorial-heading" data-i18n="intern_heading">Validasi Dokumen Publik & Riset Inovasi Daerah</h2>
+        </div>
+
+        <div class="internship-editorial-box">
+          <div class="intern-masthead">
+            <div class="intern-badge-cluster">
+              <span class="intern-inst-tag" data-i18n="intern_inst_tag">BADAN PERENCANAAN PEMERINTAH DAERAH</span>
+              <span class="intern-date-tag" data-i18n="intern_date_tag">JANUARI — MEI 2025</span>
+            </div>
+            <h3 class="intern-title">BAPPERIDA KOTA MAGELANG</h3>
+            <p class="intern-full-name">
+              Badan Perencanaan Pembangunan, Riset dan Inovasi Daerah
+            </p>
+            <div class="intern-division">
+              <span class="div-prefix" data-i18n="intern_div_prefix">Bidang:</span>
+              <strong class="div-name" data-i18n="intern_div_name">Bidang Riset dan Inovasi (BAPPERIDA Kota Magelang)</strong>
+            </div>
+          </div>
+
+          <div class="intern-body-grid">
+            <div class="intern-column">
+              <div class="intern-feature-header">
+                <span class="feat-num">01</span>
+                <h4 data-i18n="intern_f1_title">Evaluasi Indeks Inovasi Daerah (IID)</h4>
+              </div>
+              <p class="feat-text" data-i18n="intern_f1_desc">Memeriksa dan menyaring puluhan proposal inovasi dari Organisasi Perangkat Daerah (OPD) se-Kota Magelang sesuai indikator penilaian regulasi Kemendagri.</p>
+            </div>
+
+            <div class="intern-column">
+              <div class="intern-feature-header">
+                <span class="feat-num">02</span>
+                <h4 data-i18n="intern_f2_title">Verifikasi Bukti Dukung Tanpa Celah</h4>
+              </div>
+              <p class="feat-text" data-i18n="intern_f2_desc">Melakukan uji silang bukti fisik, mengelola dataset spreadsheet kuantitatif, dan mengorganisasi pengarsipan digital agar seluruh parameter kepatuhan terpenuhi.</p>
+            </div>
+
+            <div class="intern-column">
+              <div class="intern-feature-header">
+                <span class="feat-num">03</span>
+                <h4 data-i18n="intern_f3_title">Sintesis Analitis untuk Pimpinan</h4>
+              </div>
+              <p class="feat-text" data-i18n="intern_f3_desc">Menyusun draf ringkasan analitis terstruktur dan mendukung forum koordinasi lintas instansi dalam evaluasi kesiapan inovasi pembangunan daerah.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 06 — SKILLS ==================== -->
+    <section id="skills" class="portfolio-section section-skills" data-section="skills" data-mascot="laptop" data-num="06" data-label-key="sec_label_06">
+      <div class="section-inner">
+        <div class="editorial-header">
+          <div class="editorial-tag">
+            <span class="brick-stud" aria-hidden="true"></span>
+            <span class="tag-text" data-i18n="skills_tag">06 / KEAHLIAN & KOMPETENSI</span>
+          </div>
+          <h2 class="editorial-heading" data-i18n="skills_heading">Kompetensi Terapan & Alat Teknis</h2>
+          <p class="editorial-subhead" data-i18n="skills_subhead">Keahlian praktis yang telah dibuktikan di laboratorium statistik, meja kasir ritel, dan instansi publik. Tanpa bar persentase buatan.</p>
+        </div>
+
+        <div class="skills-three-column-grid">
+          <!-- Category 1: Accounting -->
+          <div class="skill-card-column">
+            <div class="skill-card-header">
+              <span class="cat-stud" aria-hidden="true"></span>
+              <h3 class="cat-title" data-i18n="cat_accounting">AKUNTANSI & KEUANGAN</h3>
+            </div>
+            <ul class="skill-items-list">
+              <li class="skill-entry">
+                <strong class="skill-title" data-i18n="skill_fa_title">Administrasi Keuangan</strong>
+                <span class="skill-desc" data-i18n="skill_fa_desc">Pencatatan voucher sistematis, kategorisasi beban, dan pengarsipan tertib.</span>
+              </li>
+              <li class="skill-entry">
+                <strong class="skill-title" data-i18n="skill_cm_title">Manajemen Kas & Rekonsiliasi</strong>
+                <span class="skill-desc" data-i18n="skill_cm_desc">Pemeriksaan fisik kas laci, verifikasi kas kecil, dan pencocokan saldo tanpa selisih.</span>
+              </li>
+              <li class="skill-entry">
+                <strong class="skill-title" data-i18n="skill_tr_title">Pencatatan Transaksi</strong>
+                <span class="skill-desc" data-i18n="skill_tr_desc">Penjurnalan berpasangan, posting buku besar, dan penyusunan neraca saldo.</span>
+              </li>
+              <li class="skill-entry">
+                <strong class="skill-title" data-i18n="skill_bm_title">Pemantauan Anggaran</strong>
+                <span class="skill-desc" data-i18n="skill_bm_desc">Pengawasan alokasi anggaran operasional berkala terhadap realisasi belanja riil.</span>
+              </li>
+              <li class="skill-entry">
+                <strong class="skill-title" data-i18n="skill_fr_title">Pelaporan Keuangan</strong>
+                <span class="skill-desc" data-i18n="skill_fr_desc">Penyusunan draf laporan posisi keuangan, laba rugi, dan daftar rincian pendukung.</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Category 2: Tools -->
+          <div class="skill-card-column">
+            <div class="skill-card-header">
+              <span class="cat-stud" aria-hidden="true"></span>
+              <h3 class="cat-title" data-i18n="cat_tools">ALAT & PERANGKAT LUNAK</h3>
+            </div>
+            <ul class="skill-items-list">
+              <li class="skill-entry">
+                <strong class="skill-title">Microsoft Excel</strong>
+                <span class="skill-desc" data-i18n="skill_excel_desc">VLOOKUP, XLOOKUP, PivotTable, formula logika bertingkat, dan pembersihan data.</span>
+              </li>
+              <li class="skill-entry">
+                <strong class="skill-title">Microsoft Word</strong>
+                <span class="skill-desc" data-i18n="skill_word_desc">Penyusunan laporan formal, korespondensi dinas, dan dokumentasi audit.</span>
+              </li>
+              <li class="skill-entry">
+                <strong class="skill-title">Microsoft PowerPoint</strong>
+                <span class="skill-desc" data-i18n="skill_ppt_desc">Penyajian data finansial yang komunikatif dan perancangan slide presentasi bersih.</span>
+              </li>
+              <li class="skill-entry">
+                <strong class="skill-title">Google Workspace</strong>
+                <span class="skill-desc" data-i18n="skill_gw_desc">Pengelolaan spreadsheet kolaboratif real-time, manajemen Google Drive, dan formulir.</span>
+              </li>
+              <li class="skill-entry">
+                <strong class="skill-title" data-i18n="skill_stat_title">Perangkat Lunak Statistik</strong>
+                <span class="skill-desc" data-i18n="skill_stat_desc">Validasi data kuantitatif, komputasi regresi, dan pengorganisasian dataset.</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Category 3: Personal -->
+          <div class="skill-card-column">
+            <div class="skill-card-header">
+              <span class="cat-stud" aria-hidden="true"></span>
+              <h3 class="cat-title" data-i18n="cat_practices">ETIKA & KETERAMPILAN KERJA</h3>
+            </div>
+            <ul class="skill-items-list">
+              <li class="skill-entry">
+                <strong class="skill-title" data-i18n="skill_detail_title">Ketelitian & Presisi</strong>
+                <span class="skill-desc" data-i18n="skill_detail_desc">Pendeteksian kekeliruan secara cermat pada angka, tanggal, nomor referensi, dan saldo.</span>
+              </li>
+              <li class="skill-entry">
+                <strong class="skill-title" data-i18n="skill_time_title">Manajemen Waktu</strong>
+                <span class="skill-desc" data-i18n="skill_time_desc">Kedisiplinan tinggi dalam penutupan buku akhir periode dan tenggat instansi.</span>
+              </li>
+              <li class="skill-entry">
+                <strong class="skill-title" data-i18n="skill_team_title">Kerja Sama Tim & Koordinasi</strong>
+                <span class="skill-desc" data-i18n="skill_team_desc">Komunikasi efektif dalam kelompok akademik maupun koordinasi lintas instansi.</span>
+              </li>
+              <li class="skill-entry">
+                <strong class="skill-title" data-i18n="skill_lead_title">Kepemimpinan & Bimbingan</strong>
+                <span class="skill-desc" data-i18n="skill_lead_desc">Mengarahkan praktikan laboratorium dalam mengatasi kendala olah data.</span>
+              </li>
+              <li class="skill-entry">
+                <strong class="skill-title" data-i18n="skill_adapt_title">Adaptabilitas & Pembelajar Cepat</strong>
+                <span class="skill-desc" data-i18n="skill_adapt_desc">Cepat memahami standar akuntansi baru, sistem aplikasi kerja, dan alur operasional.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 07 — CONTACT ==================== -->
+    <section id="contact" class="portfolio-section section-contact" data-section="contact" data-mascot="contact" data-num="07" data-label-key="sec_label_07">
+      <div class="section-inner">
+        <div class="contact-split-layout">
+          <div class="contact-narrative-side">
+            <div class="editorial-tag">
+              <span class="brick-stud" aria-hidden="true"></span>
+              <span class="tag-text" data-i18n="contact_tag">07 / KONTAK</span>
+            </div>
+            <h2 class="contact-main-headline" data-i18n-html="contact_heading">
+            Siap berkontribusi di<br><em>tim keuangan Anda.</em>
+          <br><em>sesuatu yang bermakna.</em>
+          <br>
+              <em>something meaningful.</em>
+            </h2>
+            <p class="contact-pitch" data-i18n-html="contact_pitch">
+            Mencari kandidat entry-level yang tidak butuh diajari dasar ketelitian kas dan pembukuan rapi? Saya siap berkontribusi untuk posisi <strong>Junior Accountant, Finance Staff, Tax Officer, atau Internal Audit Trainee</strong>. Terbuka untuk membicarakan bagaimana integritas dan etos kerja saya dapat memberi nilai tambah bagi organisasi Anda.
+          <strong>Akuntansi Keuangan, Manajemen Kas, Administrasi Pajak, dan Asisten Audit</strong>. Terbuka untuk berdiskusi bagaimana ketelitian dan etos kerja saya dapat memberi nilai tambah bagi tim Anda.
+          <strong>Financial Accounting, Cash Management, Tax Administration, and Audit Support</strong>. Open to discussing how my analytical rigor and structured work ethic can support your organization.
+            </p>
+
+            <div class="availability-status-box">
+              <div class="status-dot" aria-hidden="true"></div>
+              <div class="status-copy">
+                <strong class="status-title" data-i18n="contact_status_title">STATUS: SIAP UNTUK KESEMPATAN KERJA</strong>
+                <p class="status-desc" data-i18n="contact_status_desc">Terbuka untuk posisi full-time, program management trainee, dan penugasan profesional akuntansi & audit.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-actions-side">
+            <div class="direct-contact-card">
+              <div class="card-field-row">
+                <span class="field-label" data-i18n="contact_email_label">EMAIL LANGSUNG</span>
+                <div class="field-value-group">
+                  <a href="mailto:nurvitaoctaviani@gmail.com" class="email-display-link" id="emailDisplayLink">
+                    nurvitaoctaviani@gmail.com
+                  </a>
+                  <button class="copy-pill-btn" id="copyEmailBtn" type="button" data-email="nurvitaoctaviani@gmail.com" aria-label="Copy email address to clipboard">
+                    <span class="copy-label" id="copyLabel" data-i18n="contact_copy_btn">Salin Email</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="card-field-row">
+                <span class="field-label" data-i18n="contact_loc_label">LOKASI</span>
+                <span class="field-plain-value" data-i18n="contact_loc_val">Magelang, Jawa Tengah, Indonesia (Terbuka untuk Hybrid / On-Site)</span>
+              </div>
+
+              <div class="card-field-row">
+                <span class="field-label" data-i18n="contact_acad_label">LATAR PENDIDIKAN</span>
+                <span class="field-plain-value" data-i18n="contact_acad_val">Universitas Muhammadiyah Magelang — S1 Akuntansi (2022 - 2026)</span>
+              </div>
+
+              <div class="card-cta-group">
+                <a href="mailto:nurvitaoctaviani@gmail.com?subject=Career%20Opportunity%20-%20Nurvita%20Octaviani" class="btn btn--primary btn--full">
+                  <span data-i18n="contact_send_btn">Kirim Undangan / Email Langsung</span>
+                  <span class="btn-symbol" aria-hidden="true">↗</span>
+                </a>
+                <a href="CV_Nurvita_Octaviani_ATS.pdf" download="CV_Nurvita_Octaviani_ATS.pdf" class="btn btn--cv btn--full" style="margin-top: 0.625rem;">
+                  <span class="cv-pill-tag">PDF</span>
+                  <span data-i18n="contact_download_cv">Unduh CV Lengkap (Format ATS)</span>
+                  <span class="btn-symbol" aria-hidden="true">↓</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

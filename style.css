@@ -1,0 +1,2287 @@
+/* ==========================================================================
+   NURVITA OCTAVIANI — ACCOUNTING & FINANCE EDITORIAL PORTFOLIO
+   Design System: Modern Annual Report × Accounting Editorial × Voxel Identity
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   01. DESIGN TOKENS & SYSTEM VARIABLES
+   -------------------------------------------------------------------------- */
+:root {
+  /* Core Color Palette (Restrained, Editorial, Warm Ground) */
+  --background: #F4F0E8;
+  --surface: #FBF9F4;
+  --surface-hover: #F6F2EA;
+  --surface-raised: #FFFFFF;
+  --surface-alt: #ECE5D8;
+
+  --text: #1D1B18;
+  --text-secondary: #48433C;
+  --text-muted: #6F6A62;
+  --text-faint: #9A9387;
+
+  --brown: #8A5A3C;
+  --brown-dark: #56392B;
+  --brown-subtle: rgba(138, 90, 60, 0.08);
+
+  --sage: #78836C;
+  --sage-subtle: rgba(120, 131, 108, 0.12);
+
+  --brick-yellow: #E3B44B;
+  --brick-yellow-subtle: rgba(227, 180, 75, 0.16);
+
+  --border: #D8D1C5;
+  --border-subtle: #E8E2D6;
+  --border-strong: #B8B0A2;
+
+  /* Typography */
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", "IBM Plex Mono", Menlo, Consolas, monospace;
+
+  /* Layout & Grid */
+  --page-max-width: 1360px;
+  --page-padding-x: clamp(1.5rem, 4.5vw, 4.5rem);
+  --header-height: 72px;
+
+  /* Motion Timing & Curves */
+  --ease-editorial: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-press: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 180ms;
+  --duration-medium: 320ms;
+  --duration-mascot: 340ms;
+}
+
+/* --------------------------------------------------------------------------
+   02. RESET & BASE ELEMENTS
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--background);
+  color: var(--text);
+  overflow-y: scroll;
+  overflow-x: hidden;
+  overscroll-behavior-y: none;
+  scroll-padding-top: 0px;
+}
+
+@media (min-width: 901px) {
+  html {
+    scroll-snap-type: y mandatory;
+  }
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--background);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100%;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-editorial);
+}
+
+ul, ol {
+  list-style: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* --------------------------------------------------------------------------
+   03. CUSTOM LEGO STUD CURSOR (Desktop fine pointers only)
+   -------------------------------------------------------------------------- */
+.custom-cursor {
+  display: none;
+}
+
+@media (pointer: fine) {
+  body {
+    cursor: default;
+  }
+  
+  .custom-cursor {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+    z-index: 99999;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.25s ease, transform 0.08s linear;
+  }
+
+  .cursor-stud {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid var(--brown);
+    background: var(--brick-yellow-subtle);
+    position: relative;
+    box-sizing: border-box;
+    transition: transform 0.16s var(--ease-press), border-color 0.16s ease, background 0.16s ease;
+  }
+
+  .cursor-stud::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    background: var(--brown);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: background-color 0.16s ease;
+  }
+
+  /* Hover interactive elements */
+  body.cursor-hover .custom-cursor .cursor-stud {
+    transform: scale(1.35);
+    border-color: var(--brown-dark);
+    background: var(--brick-yellow);
+  }
+
+  body.cursor-hover .custom-cursor .cursor-stud::after {
+    background: var(--brown-dark);
+  }
+
+  /* Click/press state */
+  body.cursor-active .custom-cursor .cursor-stud {
+    transform: scale(0.85);
+    background: var(--brown);
+    border-color: var(--brown-dark);
+  }
+
+  body.cursor-active .custom-cursor .cursor-stud::after {
+    background: var(--surface);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   04. LEGO MOTIFS & EDITORIAL ATOMS
+   -------------------------------------------------------------------------- */
+.brick-stud {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--brick-yellow);
+  border: 1px solid var(--brown);
+  box-shadow: inset 0 -1px 0 rgba(86, 57, 43, 0.4);
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+.editorial-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--brown);
+  margin-bottom: 1.25rem;
+}
+
+.tag-text {
+  letter-spacing: 0.08em;
+}
+
+/* --------------------------------------------------------------------------
+   05. HEADER & NAVIGATION
+   -------------------------------------------------------------------------- */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--header-height);
+  z-index: 80;
+  background: rgba(244, 240, 232, 0.94);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  transition: background-color var(--duration-medium) ease;
+}
+
+.header-container {
+  max-width: var(--page-max-width);
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 var(--page-padding-x);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand-mark {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.brand-stud {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: var(--brick-yellow);
+  border: 1.5px solid var(--brown);
+}
+
+.brand-title {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  letter-spacing: 0.02em;
+  color: var(--text);
+}
+
+.brand-badge {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  padding: 1px 6px;
+  border-radius: 2px;
+  background: var(--surface);
+}
+
+.site-nav .nav-list {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-link {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  position: relative;
+  padding: 6px 0;
+  transition: color var(--duration-fast) var(--ease-editorial);
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  background-color: var(--brown);
+  transition: width 200ms var(--ease-editorial);
+}
+
+.nav-link:hover {
+  color: var(--text);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.nav-link.is-active {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.nav-link.is-active::after {
+  width: 100%;
+  background-color: var(--brown);
+}
+
+.nav-link--cta {
+  color: var(--brown);
+  font-weight: 600;
+}
+
+
+/* --------------------------------------------------------------------------
+   05B. BILINGUAL LANGUAGE SWITCHER (EN | ID)
+   -------------------------------------------------------------------------- */
+
+/* --------------------------------------------------------------------------
+   05C. COMPACT CV DOWNLOAD BUTTONS (ATS PDF)
+   -------------------------------------------------------------------------- */
+.btn-cv-header {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  box-shadow: 0 1px 2px rgba(29, 27, 24, 0.03);
+  transition: background-color var(--duration-fast) ease, border-color var(--duration-fast) ease, transform 0.12s var(--ease-press), color var(--duration-fast) ease;
+}
+
+.btn-cv-header:hover {
+  background-color: var(--surface-hover);
+  border-color: var(--brown);
+  color: var(--brown);
+}
+
+.btn-cv-header:active {
+  transform: translateY(1px);
+}
+
+.cv-badge {
+  background: var(--brown);
+  color: #FFFFFF;
+  font-size: 0.625rem;
+  font-weight: 700;
+  padding: 1.5px 4px;
+  border-radius: 2px;
+  letter-spacing: 0.04em;
+}
+
+.cv-icon {
+  font-size: 0.8125rem;
+  color: var(--brown);
+  transition: transform var(--duration-fast) ease;
+}
+
+.btn-cv-header:hover .cv-icon {
+  transform: translateY(1.5px);
+}
+
+.btn--cv {
+  background-color: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn--cv:hover {
+  background-color: var(--surface-hover);
+  border-color: var(--brown);
+  color: var(--brown);
+}
+
+.cv-pill-tag {
+  background: rgba(86, 57, 43, 0.1);
+  color: var(--brown);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 700;
+  padding: 2px 5px;
+  border-radius: 2px;
+  letter-spacing: 0.04em;
+}
+
+.header-right-tools {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.lang-switch-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  user-select: none;
+  box-shadow: 0 1px 2px rgba(29, 27, 24, 0.03);
+  position: relative;
+  z-index: 5;
+}
+
+.lang-btn {
+  background: none;
+  border: none;
+  padding: 3px 6px;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: 2px;
+  line-height: 1;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  transition: color var(--duration-fast) ease, background-color var(--duration-fast) ease, transform 0.12s var(--ease-press);
+}
+
+.lang-btn:active {
+  transform: translateY(1px);
+}
+
+.lang-btn:hover {
+  color: var(--text);
+}
+
+.lang-btn.is-active {
+  color: #FFFFFF;
+  background-color: var(--brown);
+}
+
+.lang-divider {
+  color: var(--border-strong);
+  font-size: 0.6875rem;
+  opacity: 0.7;
+}
+
+.mobile-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  width: 36px;
+  height: 36px;
+  padding: 6px;
+}
+
+.toggle-bar {
+  width: 24px;
+  height: 2px;
+  background-color: var(--text);
+  transition: transform var(--duration-fast) ease, opacity var(--duration-fast) ease;
+}
+
+/* --------------------------------------------------------------------------
+   06. INTERACTIVE SECTION INDICATOR (Right Margin)
+   -------------------------------------------------------------------------- */
+.section-indicator {
+  position: fixed;
+  right: clamp(1.25rem, 2.5vw, 2.75rem);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 70;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  user-select: none;
+}
+
+.indicator-num-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.1;
+  color: var(--text);
+  pointer-events: none;
+}
+
+.indicator-current {
+  font-weight: 600;
+  color: var(--brown);
+  transition: opacity var(--duration-fast) ease;
+}
+
+.indicator-sep {
+  font-size: 0.6875rem;
+  color: var(--text-faint);
+  margin: 1px 0;
+}
+
+.indicator-total {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.indicator-track-container {
+  position: relative;
+  width: 24px;
+  height: 130px;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.indicator-track {
+  width: 2px;
+  height: 100%;
+  background-color: var(--border);
+  position: relative;
+  border-radius: 1px;
+}
+
+.indicator-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 14.28%;
+  background-color: var(--brown);
+  transition: transform 0.4s var(--ease-editorial);
+  border-radius: 1px;
+}
+
+.indicator-ticks {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tick-btn {
+  width: 16px;
+  height: 16px;
+  background: none;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.tick-btn::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--border-strong);
+  transition: all var(--duration-fast) ease;
+}
+
+.tick-btn:hover::before {
+  transform: scale(1.6);
+  background-color: var(--brown);
+}
+
+.tick-btn.is-active::before {
+  transform: scale(1.8);
+  background-color: var(--brown-dark);
+  box-shadow: 0 0 0 2px var(--brick-yellow-subtle);
+}
+
+.indicator-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  margin-top: 4px;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   07. MASCOT CONTROLLER COMPONENT (Fixed Bottom-Left)
+   -------------------------------------------------------------------------- */
+.mascot-controller {
+  position: fixed;
+  bottom: 24px;
+  right: clamp(1.5rem, 3.2vw, 3.5rem);
+  left: auto;
+  width: 185px;
+  height: 222px;
+  z-index: 85;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: width 0.52s cubic-bezier(0.22, 0.61, 0.36, 1),
+              height 0.52s cubic-bezier(0.22, 0.61, 0.36, 1),
+              right 0.52s cubic-bezier(0.22, 0.61, 0.36, 1),
+              bottom 0.52s cubic-bezier(0.22, 0.61, 0.36, 1),
+              opacity 0.5s var(--ease-editorial),
+              transform 0.5s var(--ease-editorial);
+}
+
+/* --------------------------------------------------------------------------
+   HERO GRAND MASCOT SHOWCASE (LIFELIKE 3D SHADOW & DEPTH)
+   -------------------------------------------------------------------------- */
+@media (min-width: 901px) {
+  .mascot-controller.is-hero-mode {
+    width: clamp(280px, 24vw, 380px);
+    height: clamp(336px, 28.8vw, 456px);
+    right: clamp(3rem, 7vw, 8rem);
+    bottom: clamp(3rem, 11vh, 8.5rem);
+  }
+
+  /* Soft lifelike ambient shadow on the figure */
+  .mascot-controller.is-hero-mode .mascot-img {
+    filter: drop-shadow(0 16px 28px rgba(60, 40, 30, 0.16)) drop-shadow(0 4px 10px rgba(60, 40, 30, 0.09));
+    transition: filter 0.3s ease, transform 0.22s var(--ease-editorial);
+  }
+
+  .mascot-controller.is-hero-mode .mascot-stage:hover .mascot-img {
+    filter: drop-shadow(0 22px 36px rgba(60, 40, 30, 0.22)) drop-shadow(0 6px 14px rgba(60, 40, 30, 0.11));
+  }
+
+  /* Ground contact floor shadow under the feet */
+  .mascot-controller.is-hero-mode .mascot-pedestal {
+    width: 72%;
+    height: 22px;
+    bottom: -6px;
+    background: radial-gradient(ellipse at center, rgba(60, 40, 30, 0.28) 0%, rgba(60, 40, 30, 0.12) 44%, rgba(60, 40, 30, 0) 74%);
+    filter: blur(1.5px);
+  }
+
+  .mascot-controller.is-hero-mode .mascot-bubble {
+    font-size: 0.9375rem;
+    padding: 10px 18px;
+    bottom: calc(100% - 4px);
+    right: 24px;
+    box-shadow: 0 8px 24px rgba(29, 27, 24, 0.12);
+  }
+}
+
+.mascot-controller.is-ready {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.bubble-text {
+  display: inline-block;
+  transition: opacity 0.15s ease;
+}
+
+.mascot-bubble {
+  position: absolute;
+  bottom: calc(100% - 10px);
+  right: 0;
+  left: auto;
+  background: var(--surface-raised);
+  border: 1px solid var(--border-strong);
+  padding: 8px 14px;
+  border-radius: 4px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--text);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(6px);
+  box-shadow: 0 4px 16px rgba(29, 27, 24, 0.08);
+  transition: opacity 0.25s var(--ease-editorial), transform 0.25s var(--ease-editorial);
+  z-index: 10;
+}
+
+.mascot-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  right: 28px;
+  left: auto;
+  width: 8px;
+  height: 8px;
+  background: var(--surface-raised);
+  border-right: 1px solid var(--border-strong);
+  border-bottom: 1px solid var(--border-strong);
+  transform: rotate(45deg);
+}
+
+.mascot-bubble.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+.mascot-blink-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom center;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  will-change: opacity;
+  transition: none !important; /* Instant frame swap for true optical blink */
+}
+
+.mascot-blink-overlay.is-blinking {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.mascot-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  transition: transform 0.22s var(--ease-editorial);
+}
+
+.mascot-stage:hover .mascot-img {
+  transform: translateY(-4px) scale(1.025);
+  filter: drop-shadow(0 6px 14px rgba(86, 57, 43, 0.16));
+}
+
+.mascot-stage:active .mascot-img {
+  transform: translateY(1px) scale(0.96);
+  filter: drop-shadow(0 2px 6px rgba(86, 57, 43, 0.1));
+}
+
+.mascot-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom center;
+  will-change: transform, opacity;
+  transition: opacity var(--duration-mascot) var(--ease-editorial),
+              transform var(--duration-mascot) var(--ease-editorial);
+}
+
+.mascot-pedestal {
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110px;
+  height: 12px;
+  background: radial-gradient(ellipse at center, rgba(86, 57, 43, 0.16) 0%, rgba(86, 57, 43, 0) 72%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+
+
+.pill-stud {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--brick-yellow);
+}
+
+.mascot-controller.thinking-mode .mascot-img {
+  animation: subtleThinking 3.6s ease-in-out infinite;
+}
+
+@keyframes subtleThinking {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   08. BUTTONS & INTERACTIVE ELEMENTS
+   -------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 22px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border-radius: 3px;
+  transition: transform var(--duration-fast) var(--ease-press),
+              box-shadow var(--duration-fast) var(--ease-editorial),
+              background-color var(--duration-fast) ease;
+  position: relative;
+}
+
+.btn:active {
+  transform: translateY(2px);
+  box-shadow: none !important;
+}
+
+.btn--primary {
+  background-color: var(--text);
+  color: var(--surface);
+  box-shadow: 0 2px 0 var(--brown-dark);
+}
+
+.btn--primary:hover {
+  background-color: var(--brown-dark);
+  box-shadow: 0 3px 0 rgba(86, 57, 43, 0.6);
+}
+
+.btn--secondary {
+  background-color: transparent;
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  box-shadow: 0 2px 0 var(--border);
+}
+
+.btn--secondary:hover {
+  background-color: var(--surface);
+  border-color: var(--text);
+}
+
+.btn--full {
+  width: 100%;
+  justify-content: center;
+}
+
+.btn-symbol {
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
+  transition: transform var(--duration-fast) ease;
+}
+
+.btn:hover .btn-symbol {
+  transform: translateY(1px);
+}
+
+/* --------------------------------------------------------------------------
+   09. PORTFOLIO SECTIONS COMMON LAYOUT
+   -------------------------------------------------------------------------- */
+.portfolio-container {
+  width: 100%;
+}
+
+.portfolio-section {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: calc(var(--header-height) + 1.25rem) 0 2.25rem;
+  border-bottom: 1px solid var(--border-subtle);
+  position: relative;
+}
+
+@media (min-width: 901px) {
+  .portfolio-section {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+}
+
+.section-inner {
+  width: 100%;
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+  padding: 0 var(--page-padding-x);
+}
+
+.editorial-header {
+  margin-bottom: clamp(1.75rem, 3.2vw, 2.75rem);
+  max-width: 860px;
+}
+
+.editorial-heading {
+  font-size: clamp(2rem, 3.6vw, 3.125rem);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+  color: var(--text);
+}
+
+.editorial-subhead {
+  margin-top: 0.75rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  max-width: 680px;
+}
+
+/* --------------------------------------------------------------------------
+   10. SECTION 01 — HERO
+   -------------------------------------------------------------------------- */
+.section-hero {
+  min-height: 100svh;
+}
+
+.hero-layout {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: clamp(1rem, 2vw, 2rem);
+}
+
+.hero-masthead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.875rem;
+}
+
+.hero-masthead .editorial-tag {
+  margin-bottom: 0;
+}
+
+.role-discipline {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--sage);
+}
+
+.hero-centerpiece {
+  padding: 1.5rem 0 2rem;
+}
+
+.hero-title {
+  font-size: clamp(3.75rem, 9vw, 8rem);
+  font-weight: 600;
+  line-height: 0.92;
+  letter-spacing: -0.05em;
+  color: var(--text);
+  margin-bottom: 1.75rem;
+}
+
+.hero-title-sub {
+  color: var(--brown);
+  font-weight: 600;
+}
+
+.hero-concept-block {
+  max-width: 720px;
+  margin-bottom: 2rem;
+}
+
+.hero-concept-quote {
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.75rem;
+}
+
+.hero-concept-quote em {
+  font-style: italic;
+  color: var(--brown-dark);
+}
+
+.quote-glyph {
+  color: var(--brick-yellow);
+  font-family: serif;
+}
+
+.hero-lead-text {
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+}
+
+.hero-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.hero-footer-specs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  border-top: 1px solid var(--border);
+  padding-top: 1.25rem;
+}
+
+.spec-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.spec-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-faint);
+}
+
+.spec-detail {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.spec-mono {
+  font-family: var(--font-mono);
+  font-feature-settings: "tnum";
+}
+
+/* Subtle Hero Scroll Cue */
+.hero-scroll-cue {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 1rem;
+  width: fit-content;
+  text-decoration: none;
+  color: var(--text-muted);
+  transition: color var(--duration-fast) ease;
+}
+
+.hero-scroll-cue:hover {
+  color: var(--brown);
+}
+
+.cue-pill {
+  width: 16px;
+  height: 26px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: 13px;
+  display: flex;
+  justify-content: center;
+  padding-top: 4px;
+  box-sizing: border-box;
+}
+
+.cue-dot {
+  width: 3px;
+  height: 5px;
+  background-color: var(--brown);
+  border-radius: 2px;
+  animation: scrollCueFloat 2s ease-in-out infinite;
+}
+
+@keyframes scrollCueFloat {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translateY(8px);
+    opacity: 0.25;
+  }
+}
+
+.cue-text {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+/* --------------------------------------------------------------------------
+   11. SECTION 02 — ABOUT ME
+   -------------------------------------------------------------------------- */
+.about-editorial-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: flex-start;
+}
+
+.narrative-standout {
+  font-size: clamp(1.1875rem, 1.7vw, 1.4375rem);
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--text);
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.015em;
+}
+
+.narrative-body {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.about-pillars-column {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--border);
+}
+
+.pillar-row {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 1rem;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.pillar-index {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--brown);
+}
+
+.pillar-title {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--text);
+  margin-bottom: 0.35rem;
+}
+
+.pillar-desc {
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   12. SECTION 03 — EDUCATION
+   -------------------------------------------------------------------------- */
+.education-editorial-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: stretch;
+}
+
+.edu-degree-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: clamp(1.75rem, 3vw, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.edu-faculty {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--brown);
+  margin-bottom: 1rem;
+}
+
+.edu-university-title {
+  font-size: clamp(1.875rem, 3vw, 2.75rem);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  color: var(--text);
+  margin-bottom: 1.5rem;
+}
+
+.edu-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.edu-program-pill {
+  background-color: var(--brown);
+  color: var(--surface);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 2px;
+  letter-spacing: 0.06em;
+}
+
+.edu-timeline-text {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.edu-narrative-note {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.edu-gpa-editorial-card {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  padding: clamp(1.75rem, 3vw, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.gpa-supernumber-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.gpa-supernumber {
+  font-family: var(--font-sans);
+  font-size: clamp(4rem, 7.5vw, 6.75rem);
+  font-weight: 600;
+  line-height: 0.88;
+  letter-spacing: -0.05em;
+  color: var(--brown-dark);
+  font-feature-settings: "tnum";
+}
+
+.gpa-metadata {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.gpa-caption {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text);
+}
+
+.gpa-scale-text {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--sage);
+  letter-spacing: 0.05em;
+}
+
+.gpa-context-note {
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.edu-coursework-card {
+  grid-column: 1 / -1;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: clamp(1.25rem, 2vw, 1.75rem);
+}
+
+.coursework-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 0.35rem;
+}
+
+.coursework-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 0.75rem 1.75rem;
+}
+
+.course-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.course-tag {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--brown);
+  background: var(--brown-subtle);
+  padding: 2px 6px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.course-name {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+/* --------------------------------------------------------------------------
+   13. SECTION 04 — WORK EXPERIENCE (SIDE-BY-SIDE EDITORIAL CARDS)
+   -------------------------------------------------------------------------- */
+.experience-structured-rows {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(1.25rem, 2.5vw, 2.25rem);
+  align-items: stretch;
+  margin-top: 0.5rem;
+}
+
+.exp-row {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: clamp(1.25rem, 2vw, 1.75rem);
+  transition: transform var(--duration-fast) ease, box-shadow var(--duration-fast) ease, border-color var(--duration-fast) ease;
+  position: relative;
+}
+
+.exp-row:hover {
+  border-color: var(--border-strong);
+  box-shadow: 0 6px 20px rgba(29, 27, 24, 0.05);
+}
+
+.exp-col-timeline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.875rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.exp-period {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text);
+  font-feature-settings: "tnum";
+}
+
+.exp-type-tag {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--brown);
+  letter-spacing: 0.06em;
+  background: rgba(86, 57, 43, 0.06);
+  padding: 2px 7px;
+  border-radius: 2px;
+}
+
+.exp-col-main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.exp-header {
+  margin-bottom: 0.75rem;
+}
+
+.exp-role {
+  font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  line-height: 1.3;
+  margin-bottom: 0.25rem;
+}
+
+.exp-org {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.exp-summary {
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  margin-bottom: 0.875rem;
+}
+
+.exp-responsibilities {
+  flex: 1;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.exp-responsibilities li {
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  position: relative;
+  padding-left: 1.125rem;
+}
+
+.exp-responsibilities li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: var(--brown);
+  font-weight: 600;
+}
+
+.exp-tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.tag-pill {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  padding: 2px 7px;
+  border-radius: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   14. SECTION 05 — INTERNSHIP
+   -------------------------------------------------------------------------- */
+.internship-editorial-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: clamp(1.75rem, 3.5vw, 2.75rem);
+}
+
+.intern-masthead {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
+}
+
+.intern-badge-cluster {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.intern-inst-tag {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--sage);
+  letter-spacing: 0.08em;
+}
+
+.intern-date-tag {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--brown);
+  background: var(--brown-subtle);
+  padding: 2px 8px;
+  border-radius: 2px;
+}
+
+.intern-title {
+  font-size: clamp(1.875rem, 3.2vw, 2.875rem);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  color: var(--text);
+  margin-bottom: 0.35rem;
+}
+
+.intern-full-name {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.intern-division {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.div-prefix {
+  color: var(--text-faint);
+  margin-right: 6px;
+}
+
+.div-name {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.intern-body-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.25rem, 2.5vw, 2.25rem);
+}
+
+.intern-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.intern-feature-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 0.75rem;
+}
+
+.feat-num {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--brown);
+}
+
+.intern-feature-header h4 {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--text);
+}
+
+.feat-text {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   15. SECTION 06 — SKILLS
+   -------------------------------------------------------------------------- */
+.skills-three-column-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.25rem, 2.5vw, 2rem);
+}
+
+.skill-card-column {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: clamp(1.5rem, 2vw, 2rem);
+  display: flex;
+  flex-direction: column;
+}
+
+.skill-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.cat-stud {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--brick-yellow);
+  border: 1px solid var(--brown);
+  flex-shrink: 0;
+}
+
+.cat-title {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--text);
+}
+
+.skill-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.skill-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.skill-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.skill-desc {
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   16. SECTION 07 — CONTACT
+   -------------------------------------------------------------------------- */
+.contact-split-layout {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+}
+
+.contact-main-headline {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--text);
+  margin-bottom: 1.5rem;
+}
+
+.contact-main-headline em {
+  font-style: italic;
+  color: var(--brown);
+}
+
+.contact-pitch {
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  margin-bottom: 1.75rem;
+  max-width: 580px;
+}
+
+.contact-pitch strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.availability-status-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 1rem 1.25rem;
+  border-radius: 3px;
+  max-width: 540px;
+}
+
+.status-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: #34A853;
+  margin-top: 4px;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 3px rgba(52, 168, 83, 0.18);
+}
+
+.status-title {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--text);
+  display: block;
+  margin-bottom: 2px;
+}
+
+.status-desc {
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+
+.direct-contact-card {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  padding: clamp(1.75rem, 3vw, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  box-shadow: 0 4px 20px rgba(29, 27, 24, 0.04);
+}
+
+.card-field-row {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 1rem;
+}
+
+.field-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--text-faint);
+}
+
+.field-value-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.email-display-link {
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text);
+  word-break: break-all;
+}
+
+.email-display-link:hover {
+  color: var(--brown);
+}
+
+.copy-pill-btn {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--brown);
+  background: var(--brown-subtle);
+  border: 1px solid rgba(138, 90, 60, 0.2);
+  padding: 4px 10px;
+  border-radius: 2px;
+  transition: all var(--duration-fast) ease;
+  white-space: nowrap;
+}
+
+.copy-pill-btn:hover {
+  background: var(--brown);
+  color: var(--surface);
+}
+
+.copy-pill-btn.is-copied {
+  background: #34A853;
+  color: #FFFFFF;
+  border-color: #34A853;
+}
+
+.field-plain-value {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.card-cta-group {
+  padding-top: 0.25rem;
+}
+
+.contact-colophon-footer {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.colophon-text {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.colophon-subtext {
+  font-size: 0.75rem;
+  color: var(--text-faint);
+}
+
+/* --------------------------------------------------------------------------
+   17. COMPREHENSIVE RESPONSIVE SUITE (DESKTOP, LAPTOP, TABLET, MOBILE)
+   -------------------------------------------------------------------------- */
+
+/* Navigation Backdrop for Mobile & Tablet */
+.nav-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(29, 27, 24, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 75;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.28s var(--ease-editorial), visibility 0.28s;
+  pointer-events: none;
+}
+
+.nav-backdrop.is-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* ==================== BREAKPOINT: LAPTOP & TABLET LANDSCAPE (<= 1024px) ==================== */
+@media (max-width: 1024px) {
+  :root {
+    --page-padding-x: 2.5rem;
+  }
+
+  .education-editorial-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .skills-three-column-grid {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+
+  .intern-body-grid {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+
+  .mascot-controller {
+    width: 145px;
+    height: 174px;
+    right: 2rem;
+    left: auto;
+    bottom: 1.5rem;
+  }
+
+  .hero-title {
+    font-size: clamp(3.5rem, 8vw, 6rem);
+  }
+}
+
+/* ==================== BREAKPOINT: TABLET PORTRAIT & MOBILE (<= 900px) ==================== */
+@media (max-width: 900px) {
+  html {
+    scroll-snap-type: none !important;
+  }
+
+  .portfolio-section {
+    min-height: auto !important;
+    padding: 5rem 0 3.5rem !important;
+    scroll-snap-align: none !important;
+  }
+
+  .section-indicator {
+    display: none !important;
+  }
+
+  /* Mobile Navigation Drawer */
+  .mobile-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 36px;
+    height: 36px;
+    padding: 6px;
+    border-radius: 3px;
+    cursor: pointer;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    transition: background-color var(--duration-fast) ease, border-color var(--duration-fast) ease;
+    z-index: 82;
+  }
+
+  .mobile-toggle:hover {
+    background: var(--surface-hover);
+    border-color: var(--border-strong);
+  }
+
+  .toggle-bar {
+    width: 18px;
+    height: 2px;
+    background-color: var(--text);
+    transition: transform 0.22s var(--ease-press), opacity 0.18s ease;
+    transform-origin: center;
+  }
+
+  .mobile-toggle.is-active .toggle-bar:nth-child(1) {
+    transform: translateY(3.5px) rotate(45deg);
+  }
+
+  .mobile-toggle.is-active .toggle-bar:nth-child(2) {
+    transform: translateY(-3.5px) rotate(-45deg);
+  }
+
+  .site-nav {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    width: 100%;
+    background: rgba(251, 249, 244, 0.98);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem var(--page-padding-x) 2rem;
+    box-shadow: 0 12px 32px rgba(29, 27, 24, 0.08);
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 0.28s var(--ease-editorial), opacity 0.28s var(--ease-editorial), visibility 0.28s;
+    z-index: 78;
+    display: block;
+  }
+
+  .site-nav.is-open {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .site-nav .nav-list {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .site-nav .nav-link {
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .site-nav .nav-link::after {
+    display: none;
+  }
+
+  .site-nav .nav-link.is-active {
+    color: var(--brown);
+  }
+
+  .site-nav .nav-link.is-active::after {
+    content: "●";
+    display: inline-block;
+    width: auto;
+    height: auto;
+    background: none;
+    font-size: 0.75rem;
+    color: var(--brown);
+  }
+
+  /* Grid adaptations */
+  .experience-structured-rows,
+  .about-editorial-grid,
+  .contact-split-layout {
+    grid-template-columns: 1fr;
+    gap: 2.75rem;
+  }
+
+  .exp-row {
+    grid-template-columns: 1fr;
+    gap: 0.875rem;
+    padding: 1.75rem 0;
+  }
+
+  .hero-footer-specs {
+    grid-template-columns: 1fr;
+    gap: 0.875rem;
+  }
+
+  /* Mascot scaled down on tablet */
+  .mascot-controller {
+    width: 115px;
+    height: 138px;
+    right: 1.25rem;
+    left: auto;
+    bottom: 1.25rem;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .bubble-text {
+  display: inline-block;
+  transition: opacity 0.15s ease;
+}
+
+.mascot-bubble {
+    display: none; /* keep screen uncluttered */
+  }
+
+  
+
+/* ==================== BREAKPOINT: STANDARD MOBILE PHONES (<= 640px) ==================== */
+@media (max-width: 640px) {
+  .btn-cv-header .cv-label {
+    display: none;
+  }
+  .btn-cv-header {
+    padding: 5px 7px;
+  }
+
+  :root {
+    --page-padding-x: 1.25rem;
+    --header-height: 64px;
+  }
+
+  .hero-title {
+    font-size: clamp(2.875rem, 13vw, 4.25rem);
+    line-height: 0.95;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-concept-quote {
+    font-size: 1.1875rem;
+    line-height: 1.4;
+  }
+
+  .hero-lead-text {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  .hero-actions-row {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 0.75rem;
+  }
+
+  .hero-actions-row .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .editorial-heading {
+    font-size: 1.875rem;
+    line-height: 1.15;
+  }
+
+  .edu-university-title {
+    font-size: 1.625rem;
+  }
+
+  .edu-degree-card,
+  .edu-gpa-editorial-card {
+    padding: 1.5rem 1.125rem;
+  }
+
+  .gpa-supernumber-wrap {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .gpa-supernumber {
+    font-size: clamp(3.75rem, 16vw, 5rem);
+  }
+
+  .coursework-list {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .internship-editorial-box {
+    padding: 1.5rem 1.125rem;
+  }
+
+  .intern-title {
+    font-size: 1.75rem;
+  }
+
+  .skill-card-column {
+    padding: 1.35rem 1.125rem;
+  }
+
+  .contact-main-headline {
+    font-size: clamp(2.25rem, 8.5vw, 3.25rem);
+  }
+
+  .direct-contact-card {
+    padding: 1.5rem 1.125rem;
+    gap: 1.25rem;
+  }
+
+  .field-value-group {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .email-display-link {
+    font-size: 0.875rem;
+  }
+
+  .copy-pill-btn {
+    width: 100%;
+    text-align: center;
+    padding: 8px 12px;
+  }
+
+  /* Compact mascot placed safely at bottom left */
+  .mascot-controller {
+    width: 90px;
+    height: 108px;
+    right: 10px;
+    left: auto;
+    bottom: 10px;
+  }
+
+  .custom-cursor {
+    display: none !important;
+  }
+}
+
+/* ==================== BREAKPOINT: COMPACT MOBILE SCREENS (<= 375px) ==================== */
+@media (max-width: 375px) {
+  .brand-badge {
+    display: none; /* Hide badge on very narrow phones so full name fits */
+  }
+
+  .brand-title {
+    font-size: 0.8125rem;
+  }
+
+  
+/* --------------------------------------------------------------------------
+   05C. COMPACT CV DOWNLOAD BUTTONS (ATS PDF)
+   -------------------------------------------------------------------------- */
+.btn-cv-header {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  box-shadow: 0 1px 2px rgba(29, 27, 24, 0.03);
+  transition: background-color var(--duration-fast) ease, border-color var(--duration-fast) ease, transform 0.12s var(--ease-press), color var(--duration-fast) ease;
+}
+
+.btn-cv-header:hover {
+  background-color: var(--surface-hover);
+  border-color: var(--brown);
+  color: var(--brown);
+}
+
+.btn-cv-header:active {
+  transform: translateY(1px);
+}
+
+.cv-badge {
+  background: var(--brown);
+  color: #FFFFFF;
+  font-size: 0.625rem;
+  font-weight: 700;
+  padding: 1.5px 4px;
+  border-radius: 2px;
+  letter-spacing: 0.04em;
+}
+
+.cv-icon {
+  font-size: 0.8125rem;
+  color: var(--brown);
+  transition: transform var(--duration-fast) ease;
+}
+
+.btn-cv-header:hover .cv-icon {
+  transform: translateY(1.5px);
+}
+
+.btn--cv {
+  background-color: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn--cv:hover {
+  background-color: var(--surface-hover);
+  border-color: var(--brown);
+  color: var(--brown);
+}
+
+.cv-pill-tag {
+  background: rgba(86, 57, 43, 0.1);
+  color: var(--brown);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 700;
+  padding: 2px 5px;
+  border-radius: 2px;
+  letter-spacing: 0.04em;
+}
+
+.header-right-tools {
+    gap: 0.5rem;
+  }
+
+  .lang-switch-wrap {
+    padding: 2px 5px;
+    font-size: 0.6875rem;
+  }
+
+  .hero-title {
+    font-size: 2.625rem;
+  }
+
+  .mascot-controller {
+    width: 80px;
+    height: 96px;
+    right: 8px;
+    left: auto;
+    bottom: 8px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   18. ACCESSIBILITY — PREFERS-REDUCED-MOTION
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .custom-cursor {
+    display: none !important;
+  }
+}
+
+
+@media (max-height: 760px) and (min-width: 901px) {
+  .section-indicator {
+    top: 40%;
+  }
+}
