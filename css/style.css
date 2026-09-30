@@ -335,84 +335,6 @@ img {
    05B. BILINGUAL LANGUAGE SWITCHER (EN | ID)
    -------------------------------------------------------------------------- */
 
-/* --------------------------------------------------------------------------
-   05C. COMPACT CV DOWNLOAD BUTTONS (ATS PDF)
-   -------------------------------------------------------------------------- */
-.btn-cv-header {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  padding: 4px 10px;
-  border-radius: 3px;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--text);
-  text-decoration: none;
-  line-height: 1;
-  letter-spacing: 0.03em;
-  box-shadow: 0 1px 2px rgba(29, 27, 24, 0.03);
-  transition: background-color var(--duration-fast) ease, border-color var(--duration-fast) ease, transform 0.12s var(--ease-press), color var(--duration-fast) ease;
-}
-
-.btn-cv-header:hover {
-  background-color: var(--surface-hover);
-  border-color: var(--brown);
-  color: var(--brown);
-}
-
-.btn-cv-header:active {
-  transform: translateY(1px);
-}
-
-.cv-badge {
-  background: var(--brown);
-  color: #FFFFFF;
-  font-size: 0.625rem;
-  font-weight: 700;
-  padding: 1.5px 4px;
-  border-radius: 2px;
-  letter-spacing: 0.04em;
-}
-
-.cv-icon {
-  font-size: 0.8125rem;
-  color: var(--brown);
-  transition: transform var(--duration-fast) ease;
-}
-
-.btn-cv-header:hover .cv-icon {
-  transform: translateY(1.5px);
-}
-
-.btn--cv {
-  background-color: var(--surface);
-  color: var(--text);
-  border: 1px solid var(--border-strong);
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.btn--cv:hover {
-  background-color: var(--surface-hover);
-  border-color: var(--brown);
-  color: var(--brown);
-}
-
-.cv-pill-tag {
-  background: rgba(86, 57, 43, 0.1);
-  color: var(--brown);
-  font-family: var(--font-mono);
-  font-size: 0.625rem;
-  font-weight: 700;
-  padding: 2px 5px;
-  border-radius: 2px;
-  letter-spacing: 0.04em;
-}
-
 .header-right-tools {
   display: flex;
   align-items: center;
@@ -493,14 +415,23 @@ img {
 .section-indicator {
   position: fixed;
   right: clamp(1.25rem, 2.5vw, 2.75rem);
-  top: 50%;
-  transform: translateY(-50%);
+  top: clamp(100px, 24vh, 180px);
+  transform: none;
   z-index: 70;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 12px;
   user-select: none;
+}
+
+@media (min-width: 901px) and (max-height: 760px) {
+  .section-indicator {
+    top: calc(var(--header-height) + 14px);
+  }
+  .indicator-track-container {
+    height: 100px;
+  }
 }
 
 .indicator-num-wrap {
@@ -704,7 +635,10 @@ img {
   font-weight: 500;
   line-height: 1.4;
   color: var(--text);
-  white-space: nowrap;
+  max-width: min(290px, calc(100vw - 60px));
+  white-space: normal;
+  text-align: right;
+  word-break: break-word;
   pointer-events: none;
   opacity: 0;
   transform: translateY(6px);
@@ -2164,84 +2098,6 @@ img {
   }
 
   
-/* --------------------------------------------------------------------------
-   05C. COMPACT CV DOWNLOAD BUTTONS (ATS PDF)
-   -------------------------------------------------------------------------- */
-.btn-cv-header {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  padding: 4px 10px;
-  border-radius: 3px;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--text);
-  text-decoration: none;
-  line-height: 1;
-  letter-spacing: 0.03em;
-  box-shadow: 0 1px 2px rgba(29, 27, 24, 0.03);
-  transition: background-color var(--duration-fast) ease, border-color var(--duration-fast) ease, transform 0.12s var(--ease-press), color var(--duration-fast) ease;
-}
-
-.btn-cv-header:hover {
-  background-color: var(--surface-hover);
-  border-color: var(--brown);
-  color: var(--brown);
-}
-
-.btn-cv-header:active {
-  transform: translateY(1px);
-}
-
-.cv-badge {
-  background: var(--brown);
-  color: #FFFFFF;
-  font-size: 0.625rem;
-  font-weight: 700;
-  padding: 1.5px 4px;
-  border-radius: 2px;
-  letter-spacing: 0.04em;
-}
-
-.cv-icon {
-  font-size: 0.8125rem;
-  color: var(--brown);
-  transition: transform var(--duration-fast) ease;
-}
-
-.btn-cv-header:hover .cv-icon {
-  transform: translateY(1.5px);
-}
-
-.btn--cv {
-  background-color: var(--surface);
-  color: var(--text);
-  border: 1px solid var(--border-strong);
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.btn--cv:hover {
-  background-color: var(--surface-hover);
-  border-color: var(--brown);
-  color: var(--brown);
-}
-
-.cv-pill-tag {
-  background: rgba(86, 57, 43, 0.1);
-  color: var(--brown);
-  font-family: var(--font-mono);
-  font-size: 0.625rem;
-  font-weight: 700;
-  padding: 2px 5px;
-  border-radius: 2px;
-  letter-spacing: 0.04em;
-}
-
 .header-right-tools {
     gap: 0.5rem;
   }
@@ -2284,4 +2140,17 @@ img {
   .section-indicator {
     top: 40%;
   }
+}
+
+@media (min-width: 901px) and (max-width: 1280px) {
+  .hero-concept-block,
+  .hero-actions-row {
+    max-width: min(540px, 48vw);
+  }
+}
+
+body.nav-open .mascot-controller {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }

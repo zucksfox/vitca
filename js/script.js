@@ -1036,7 +1036,8 @@ document.addEventListener('DOMContentLoaded', () => {
     mobileToggle.classList.add('is-active');
     mobileToggle.setAttribute('aria-expanded', 'true');
     if (navBackdrop) navBackdrop.classList.add('is-active');
-    document.body.style.overflow = 'hidden'; // lock background scrolling while drawer is open
+    document.body.style.overflow = 'hidden';
+    document.body.classList.add('nav-open');
   }
 
   function closeMobileNav() {
@@ -1046,6 +1047,7 @@ document.addEventListener('DOMContentLoaded', () => {
     mobileToggle.setAttribute('aria-expanded', 'false');
     if (navBackdrop) navBackdrop.classList.remove('is-active');
     document.body.style.overflow = '';
+    document.body.classList.remove('nav-open');
   }
 
   if (mobileToggle && siteNav) {
